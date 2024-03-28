@@ -1,31 +1,30 @@
+import { Field, Form, Formik } from "formik";
+
+const FormInitialValues = {
+  name: "",
+  number: "",
+};
+
 const ContactForm = ({ onAddContact }) => {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    const name = event.currentTarget.elements.name.value;
-    const number = event.currentTarget.elements.number.value;
-
-    const formData = {
-      name,
-      number,
-    };
-
-    onAddContact(formData);
-    event.currentTarget.reset();
+  const handleSubmit = (values, actions) => {
+    onAddContact(values);
+    actions.resetForm();
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        <span>Name</span>
-        <input type="text" name="name" required />
-      </label>
-      <label>
-        <span>Number</span>
-        <input type="text" name="number" required />
-      </label>
-      <button type="submit">Add contact</button>
-    </form>
+    <Formik initialValues={FormInitialValues} onSubmit={handleSubmit}>
+      <Form>
+        <label>
+          <span>Name</span>
+          <Field type="text" name="name" />
+        </label>
+        <label>
+          <span>Number</span>
+          <Field type="text" name="number" />
+        </label>
+        <button type="submit">Add contact</button>
+      </Form>
+    </Formik>
   );
 };
 
