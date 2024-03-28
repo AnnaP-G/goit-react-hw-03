@@ -1,7 +1,23 @@
 import Contact from "../Contact/Contact";
+import css from "./ContactList.module.css";
 
-const ContactList = ({}) => {
-  return <ul></ul>;
+const ContactList = ({ contacts, onDeleteContact }) => {
+  return (
+    <ul>
+      {Array.isArray(contacts) &&
+        contacts.map(({ name, number, id }) => {
+          return (
+            <Contact
+              key={id}
+              id={id}
+              name={name}
+              number={number}
+              onDeleteContact={onDeleteContact}
+            />
+          );
+        })}
+    </ul>
+  );
 };
 
 export default ContactList;
