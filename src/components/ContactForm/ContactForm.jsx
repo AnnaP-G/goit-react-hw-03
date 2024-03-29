@@ -1,4 +1,19 @@
-import { Field, Form, Formik } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import * as Yup from "yup";
+import { minLengthDataValidation } from "../utils/constants";
+import { maxLengthDataValidation } from "../utils/constants";
+import css from "./ContactForm.module.css";
+
+const contactFormSchema = Yup.object().shape({
+  name: Yup.string()
+    .required("Required")
+    .min(minLengthDataValidation, "Too Short!")
+    .max(maxLengthDataValidation, "Too Long!"),
+  number: Yup.string()
+    .required("Required")
+    .min(minLengthDataValidation, "Too Short!")
+    .max(maxLengthDataValidation, "Too Long!"),
+});
 
 const FormInitialValues = {
   name: "",
@@ -12,17 +27,33 @@ const ContactForm = ({ onAddContact }) => {
   };
 
   return (
-    <Formik initialValues={FormInitialValues} onSubmit={handleSubmit}>
-      <Form>
-        <label>
-          <span>Name</span>
-          <Field type="text" name="name" />
+    <Formik
+      initialValues={FormInitialValues}
+      validationSchema={contactFormSchema}
+      onSubmit={handleSubmit}
+    >
+      <Form className={css.form}>
+        <label className={css.formLabel}>
+          <span className={css.formSpan}>Name</span>
+          <Field className={css.formFiled} type="text" name="name" />
+          <ErrorMessage
+            className={css.formError}
+            component="span"
+            name="name"
+          />
         </label>
-        <label>
-          <span>Number</span>
-          <Field type="text" name="number" />
+        <label className={css.formLabel}>
+          <span className={css.formSpan}>Number</span>
+          <Field className={css.formFiled} type="text" name="number" />
+          <ErrorMessage
+            className={css.formError}
+            component="span"
+            name="number"
+          />
         </label>
-        <button type="submit">Add contact</button>
+        <button className={css.formBtn} type="submit">
+          Add contact
+        </button>
       </Form>
     </Formik>
   );
